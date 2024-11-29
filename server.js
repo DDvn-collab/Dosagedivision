@@ -1,100 +1,62 @@
-const { MongoClient } = require('mongodb');
-const express = require('express');
-const cors = require('cors');
-const path = require('path'); // Add this to handle serving HTML
+// Load CSV and parse it
+async function loadCSV(filePath) {
+    const response = await fetch(filePath);
+    const text = await response.text();
 
-const app = express();
-
-const uri = "mongodb://localhost:27017"; // Change this to your MongoDB URI
-const client = new MongoClient(uri);
-
-let db;
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static(__dirname)); // Serve the static files from root
-
-// Connect to MongoDB
-client.connect()
-    .then(() => {
-        db = client.db('DosageSegment'); // Replace with your actual database name
-        console.log('Connected to MongoDB');
-    })
-    .catch(err => {
-        console.error('Failed to connect to MongoDB', err);
+    // Parse CSV to JSON
+    const rows = text.trim().split("\n");
+    const headers = rows[0].split(",");
+    const data = rows.slice(1).map(row => {
+        const values = row.split(",");
+        return headers.reduce((acc, header, index) => {
+            acc[header.trim()] = values[index].trim();
+            return acc;
+        }, {});
     });
 
-// Serve the HTML file when the user accesses the root URL
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+    return data;
+}
 
-// Handle the calculation POST request
-// app.post('/calculate', async (req, res) => {
-//     try {
-//         const { drugName, p, x, q, a, b } = req.body;
+// Perform calculations and render results
+function calculateAndDisplayResults(drugData, p, x, q, a, b) {
+    const c = p * q;
+    const d = (b * c) / a;
+    const e = (x * b) / d;
+    const f = e / b;
 
-//         // Ensure that 'db' is initialized and connected before trying to use it
-//         if (!db) {
-//             return res.status(500).json({ message: 'Database not connected' });
-//         }
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = `
+        <p>Value of E: ${e.toFixed(2)}</p>
+        <p>Value of F: ${f.toFixed(2)}</p>
+        <p>Comments: ${drugData.Comments || "No comments available"}</p>
+    `;
+}
 
-//         // Perform a case-insensitive search using a regular expression
-//         const drugData = await db.collection('segment').findOne({ 
-//             "Generic Name": { $regex: new RegExp(`^${drugName}$`, 'i') } // Use the correct field name and regex for case-insensitive search
-//         });
+// Main logic
+document.getElementById("calculation-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-//         if (!drugData) {
-//             return res.status(404).json({ message: 'Drug not found' });
-//         }
+    // Get form inputs
+    const drugName = document.getElementById("drugName").value.trim();
+    const p = parseFloat(document.getElementById("p").value);
+    const x = parseFloat(document.getElementById("x").value);
+    const q = parseFloat(document.getElementById("q").value);
+    const a = parseFloat(document.getElementById("a").value);
+    const b = parseFloat(document.getElementById("b").value);
 
-//         // Perform the calculations
-//         const c = p * q;
-//         const d = (b * c) / a;
-//         const e = (x * b) / d;
-//         const f = e / b;
+    // Load drug data
+    const drugs = await loadCSV("drug.csv");
 
-//         res.json({ e, f, comments: drugData.Comments });
+    // Search for drug by name (case-insensitive match)
+    const drugData = drugs.find(drug =>
+        drug["Generic Name"].toLowerCase() === drugName.toLowerCase()
+    );
 
-//     } catch (error) {
-//         console.error('Error in /calculate:', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//     }
-// });
-
-app.post('/calculate', async (req, res) => {
-    try {
-        const { drugName, p, x, q, a, b } = req.body;
-        console.log("Received data:", { drugName, p, x, q, a, b });
-
-        if (!db) {
-            return res.status(500).json({ message: 'Database not connected' });
-        }
-
-        const drugData = await db.collection('segment').findOne({
-            "Generic Name": { $regex: new RegExp(drugName.trim(), 'i') } // Case-insensitive partial match
-        });
-        
-        console.log("Database result:", drugData); // Check what is returned from the database
-
-        if (!drugData) {
-            return res.status(404).json({ message: 'Drug not found' });
-        }
-
-        const c = p * q;
-        const d = (b * c) / a;
-        const e = (x * b) / d;
-        const f = e / b;
-
-        res.json({ e, f, comments: drugData.Comments });
-
-    } catch (error) {
-        console.error('Error in /calculate:', error);
-        res.status(500).json({ message: 'Internal server error' });
+    if (!drugData) {
+        document.getElementById("results").innerHTML = "<p>Drug not found.</p>";
+        return;
     }
-});
 
-// Start the server
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+    // Perform calculations
+    calculateAndDisplayResults(drugData, p, x, q, a, b);
 });
