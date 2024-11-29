@@ -24,13 +24,16 @@ function calculateAndDisplayResults(drugData, p, x, q, a, b) {
     const e = (x * b) / d;
     const f = b / e;
 
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = `
-        <p>Value of E: ${e.toFixed(2)}</p>
-       <p>Value of F: ${Math.round(f)}</p>
+    // Assuming `e`, `f`, and `drugData` are already defined in your script
+const outputE = document.getElementById("outputE");
+const outputF = document.getElementById("outputF");
+const outputComments = document.getElementById("outputComments");
 
-        <p>Comments: ${drugData.Comments || "No comments available"}</p>
-    `;
+// Assigning values to the respective elements
+outputE.textContent = `Value of E: ${e.toFixed(2)}`;
+outputF.textContent = `Value of F: ${Math.round(f)}`;
+outputComments.textContent = `Comments: ${drugData.Comments || "No comments available"}`;
+
 }
 
 // Main logic
