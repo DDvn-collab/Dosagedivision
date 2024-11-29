@@ -38,11 +38,11 @@ document.getElementById("dosageForm").addEventListener("submit", async (event) =
 
     // Get form inputs
     const drugName = document.getElementById("drugName").value.trim();
-    const p = parseFloat(document.getElementById("p").value);
-    const x = parseFloat(document.getElementById("x").value);
-    const q = parseFloat(document.getElementById("q").value);
-    const a = parseFloat(document.getElementById("a").value);
-    const b = parseFloat(document.getElementById("b").value);
+    const p = parseFloat(document.getElementById('labelledDose').value);
+    const x = parseFloat(document.getElementById('requiredDose').value);
+    const q = parseFloat(document.getElementById('numTablets').value);
+    const a = parseFloat(document.getElementById('weightTablets').value);
+    const b = parseFloat(document.getElementById('weightPowderedTablets').value);
 
     // Load drug data
     const drugs = await loadCSV("drug.csv");
