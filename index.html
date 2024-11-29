@@ -169,9 +169,7 @@
                 const drugData = drugs.find(drug => drug["Generic Name"].toLowerCase() === drugName.toLowerCase());
 
                 if (!drugData) {
-                    document.getElementById('outputE').textContent = "Drug not found.";
-                    return;
-                }
+                    //document.getElementById('outputE').textContent = "Drug not found.";
 
                 // Perform calculations
                 const c = p * q;
@@ -183,6 +181,7 @@
                 document.getElementById('outputE').textContent = `Amount of drug in each sachet: ${e.toFixed(2)} mg`;
                 document.getElementById('outputF').textContent = `Max number of sachets prepared: ${f.toFixed(2)}`;
                 document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
+                }
             } catch (error) {
                 console.error('Error loading drug data:', error);
                 document.getElementById('outputE').textContent = 'Error loading drug data';
