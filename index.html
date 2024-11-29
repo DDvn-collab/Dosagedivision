@@ -81,8 +81,6 @@
             border-top: 1px solid #333333;
         }
     </style>
-    
-      
 </head>
 
 <body>
@@ -150,11 +148,13 @@
         </footer>
     </div>
 
+    <script src="app.js"></script> <!-- Include app.js here -->
     <script>
+        // Event listener for the form submission
         document.getElementById('dosageForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
-            const drugName = document.getElementById('drugName').value; // Get the drug name
+            const drugName = document.getElementById('drugName').value.trim();
             const p = parseFloat(document.getElementById('labelledDose').value);
             const x = parseFloat(document.getElementById('requiredDose').value);
             const q = parseFloat(document.getElementById('numTablets').value);
@@ -162,29 +162,31 @@
             const b = parseFloat(document.getElementById('weightPowderedTablets').value);
 
             try {
-                const response = await fetch('http://localhost:3000/calculate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ drugName, p, x, q, a, b }),
-                });
+                // Load drug data from the CSV file
+                const drugs = await loadCSV('drug.csv'); 
 
-                const data = await response.json();
-                if (response.ok) {
-                    document.getElementById('outputE').textContent = `Amount of drug in each sachet : ${data.e.toFixed(2)}`;
-                    document.getElementById('outputF').textContent = `Max number of sachets prepared : ${data.f.toFixed(2)}`;
-                    document.getElementById('outputComments').textContent = `Comments: ${data.comments}`;
-                } else {
-                    console.error('Failed to fetch:', data);
-                    document.getElementById('outputE').textContent = `Error: ${data.message}`;
+                // Search for the drug in the data (case-insensitive match)
+                const drugData = drugs.find(drug => drug["Generic Name"].toLowerCase() === drugName.toLowerCase());
+
+                if (!drugData) {
+                    document.getElementById('outputE').textContent = "Drug not found.";
+                    return;
                 }
-            }
-            catch (error) {
-                console.error('Network error:', error);
-                document.getElementById('outputE').textContent = 'Network error occurred';
-            }
 
+                // Perform calculations
+                const c = p * q;
+                const d = (b * c) / a;
+                const e = (x * b) / d;
+                const f = e / b;
+
+                // Display results
+                document.getElementById('outputE').textContent = `Amount of drug in each sachet: ${e.toFixed(2)} mg`;
+                document.getElementById('outputF').textContent = `Max number of sachets prepared: ${f.toFixed(2)}`;
+                document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
+            } catch (error) {
+                console.error('Error loading drug data:', error);
+                document.getElementById('outputE').textContent = 'Error loading drug data';
+            }
         });
     </script>
 </body>
