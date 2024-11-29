@@ -181,6 +181,7 @@
                 document.getElementById('outputF').textContent = `Max number of sachets prepared: ${Math.round(f)}`;
                 }else{
                 document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
+                }
             } catch (error) {
                 console.error('Error loading drug data:', error);
                 document.getElementById('outputE').textContent = 'Error loading drug data';
