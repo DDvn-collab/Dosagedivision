@@ -33,7 +33,7 @@ function calculateAndDisplayResults(drugData, p, x, q, a, b) {
 }
 
 // Main logic
-document.getElementById("calculation-form").addEventListener("submit", async (event) => {
+document.getElementById("dosageForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
     // Get form inputs
