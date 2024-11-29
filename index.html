@@ -169,8 +169,6 @@
 
                 if (!drugData) {
                     document.getElementById('outputE').textContent = "Drug not found.";
-                    return;
-                }
 
                 // Perform calculations
                 const c = p * q;
@@ -181,6 +179,7 @@
                 // Display results
                 document.getElementById('outputE').textContent = `Amount of drug in each sachet: ${e.toFixed(2)} mg`;
                 document.getElementById('outputF').textContent = `Max number of sachets prepared: ${Math.round(f)}`;
+                }else{
                 document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
             } catch (error) {
                 console.error('Error loading drug data:', error);
