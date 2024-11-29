@@ -148,7 +148,7 @@
         </footer>
     </div>
 
-    <!--<script src="server.js"></script> <!-- Include app.js here -->
+    <script src="server.js"></script> <!-- Include app.js here -->
     <script>
         document.getElementById('dosageForm').addEventListener('submit', async function (event) {
             event.preventDefault();
@@ -180,7 +180,7 @@
 
                 // Display results
                 document.getElementById('outputE').textContent = `Amount of drug in each sachet: ${e.toFixed(2)} mg`;
-                document.getElementById('outputF').textContent = `Max number of sachets prepared: ${f.toFixed(2)}`;
+                document.getElementById('outputF').textContent = `Max number of sachets prepared: ${Math.round(f)}`;
                 document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
             } catch (error) {
                 console.error('Error loading drug data:', error);
