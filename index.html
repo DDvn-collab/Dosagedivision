@@ -180,7 +180,9 @@
                 // Display results
                 document.getElementById('outputE').textContent = `Amount of drug in each sachet: ${e.toFixed(2)} mg`;
                 document.getElementById('outputF').textContent = `Max number of sachets prepared: ${f.toFixed(2)}`;
-                document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
+                }
+                else{
+                    document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
                 }
             } catch (error) {
                 console.error('Error loading drug data:', error);
