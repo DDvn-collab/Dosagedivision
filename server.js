@@ -22,12 +22,12 @@ function calculateAndDisplayResults(drugData, p, x, q, a, b) {
     const c = p * q;
     const d = (b * c) / a;
     const e = (x * b) / d;
-    const f = e / b;
+    const f = b / e;
 
     const resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = `
         <p>Value of E: ${e.toFixed(2)}</p>
-        <p>Value of F: ${f.toFixed(2)}</p>
+        <p>Value of F: ${f.toFixed(0)}</p>
         <p>Comments: ${drugData.Comments || "No comments available"}</p>
     `;
 }
