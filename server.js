@@ -53,7 +53,7 @@ document.getElementById("dosageForm").addEventListener("submit", async (event) =
     );
 
     if (!drugData) {
-        document.getElementById('outputComments').innerHTML = "<p>Drug not found.</p>";
+        document.getElementById('outputE').innerHTML = "<p>Drug not found.</p>";
         return;
     }
 
