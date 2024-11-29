@@ -27,7 +27,8 @@ function calculateAndDisplayResults(drugData, p, x, q, a, b) {
     const resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = `
         <p>Value of E: ${e.toFixed(2)}</p>
-        <p>Value of F: ${f.toFixed(1)}</p>
+       <p>Value of F: ${Math.round(f)}</p>
+
         <p>Comments: ${drugData.Comments || "No comments available"}</p>
     `;
 }
