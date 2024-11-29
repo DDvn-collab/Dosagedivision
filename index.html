@@ -149,47 +149,6 @@
     </div>
 
     <script src="server.js"></script> <!-- Include app.js here -->
-    <script>
-        // Event listener for the form submission
-        document.getElementById('dosageForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
-
-            const drugName = document.getElementById('drugName').value.trim();
-            const p = parseFloat(document.getElementById('labelledDose').value);
-            const x = parseFloat(document.getElementById('requiredDose').value);
-            const q = parseFloat(document.getElementById('numTablets').value);
-            const a = parseFloat(document.getElementById('weightTablets').value);
-            const b = parseFloat(document.getElementById('weightPowderedTablets').value);
-
-            try {
-                // Load drug data from the CSV file
-                const drugs = await loadCSV('drug.csv'); 
-
-                // Search for the drug in the data (case-insensitive match)
-                const drugData = drugs.find(drug => drug["Generic Name"].toLowerCase() === drugName.toLowerCase());
-
-                if (!drugData) {
-                    //document.getElementById('outputE').textContent = "Drug not found.";
-
-                // Perform calculations
-                const c = p * q;
-                const d = (b * c) / a;
-                const e = (x * b) / d;
-                const f = b/ e;
-
-                // Display results
-                document.getElementById('outputE').textContent = `Amount of drug in each sachet: ${e.toFixed(2)} mg`;
-                document.getElementById('outputF').textContent = `Max number of sachets prepared: ${f.toFixed(2)}`;
-                }
-                else{
-                    document.getElementById('outputComments').textContent = `Comments: ${drugData.Comments}`;
-                }
-            } catch (error) {
-                console.error('Error loading drug data:', error);
-                document.getElementById('outputE').textContent = 'Error loading drug data';
-            }
-        });
-    </script>
 </body>
 
 </html>
