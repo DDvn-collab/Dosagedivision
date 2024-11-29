@@ -122,13 +122,13 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="weightTablets">Weight of Tablets (a) in g:</label>
-                    <input type="any" class="form-control" id="weightTablets" required>
+                    <input type="number" class="form-control" id="weightTablets" pattern="[0-9]*[.,]?[0-9]*" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="weightPowderedTablets">Weight of Powdered Tablets (b) in g:</label>
-                    <input type="any" class="form-control" id="weightPowderedTablets" required>
+                    <input type="number" class="form-control" id="weightPowderedTablets" pattern="[0-9]*[.,]?[0-9]*" required>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Calculate</button>
