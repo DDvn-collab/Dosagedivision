@@ -31,7 +31,7 @@ const outputComments = document.getElementById("outputComments");
 
 // Assigning values to the respective elements
 outputE.textContent = `Value of E: ${e.toFixed(2)}`;
-outputF.textContent = `Value of F: ${Math.round(f)}`;
+outputF.textContent = `Value of F: ${Math.floor(f)}`;
 outputComments.textContent = `Comments: ${drugData.Comments || "No comments available"}`;
 
 }
