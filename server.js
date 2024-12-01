@@ -30,8 +30,8 @@ const outputF = document.getElementById("outputF");
 const outputComments = document.getElementById("outputComments");
 
 // Assigning values to the respective elements
-outputE.textContent = `Value of E: ${e.toFixed(2)}`;
-outputF.textContent = `Value of F: ${Math.floor(f)}`;
+outputE.textContent = `Amount of drug in each sachet: ${e.toFixed(4)} mg`;
+outputF.textContent = `Maximum number of sachets prepared: ${Math.floor(f)}`;
 outputComments.textContent = `Comments: ${drugData.Comments || "No comments available"}`;
 
 }
